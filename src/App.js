@@ -1,8 +1,9 @@
 import React from 'react';
 import Header from './Header';
-import Main from './Main'
+import Main from './Main/Main'
 import { Route } from 'react-router-dom'
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar/Sidebar';
+import GoBack from './Sidebar/GoBack'
 
 class App extends React.Component {
   state= {
@@ -52,23 +53,37 @@ class App extends React.Component {
     <main className='App'>
       <Header/>
       <div className="sidebar-router">
-      <Route path ='/' exact render={(routerProps) =>
-      <Sidebar folders={this.state.folders} />
-      }/>
-      <Route path ='/folder/:folderId' render={(routerProps) =>
-      <Sidebar folders={this.state.folders} />
-      }/>
-      <Route path ='/note/:noteId'/>
+        <Route path ='/' exact render={(routerProps) =>
+        <Sidebar folders={this.state.folders} />
+        }/>
+
+        <Route path ='/folder/:folderId' render={(routerProps) =>
+        <Sidebar folders={this.state.folders} />
+        }/>
+
+        <Route path ='/note/:noteId' render={(routerProps) => {
+        console.log(routerProps)
+        let note = this.state.notes.find(note => note.id ===  routerProps.match.params.noteId)
+        let folder = this.state.folders.find(folder => folder.id === note.folderId)
+        return <GoBack folderName={folder.name}/>
+        }}/>
       </div>
+      
+      
       <div className="main-router">
-      <Route path='/' exact render={(routerProps) =>
-      <Main notes={this.state.notes}/>
-      }/>
-      <Route path='/folder/:folderId' render={(routerProps) =>{
-        console.log(routerProps.match.params.folderId)
-      return <Main notes={this.state.notes.filter(note=> note.folderId === routerProps.match.params.folderId)}/>
-      }}/>
-      <Route path='/note/:noteId'/>
+        <Route path='/' exact render={(routerProps) =>
+        <Main notes={this.state.notes}/>
+        }/>
+
+        <Route path='/folder/:folderId' render={(routerProps) =>{
+          console.log(routerProps.match.params.folderId)
+          return <Main notes={this.state.notes.filter(note=> note.folderId === routerProps.match.params.folderId)}/>
+        }}/>
+
+        <Route path='/note/:noteId' render={(routerProps) => 
+        <Main showDescription={true} notes={this.state.notes.filter(note => note.id ===  routerProps.match.params.noteId)}/>
+        }/>
+        
       </div>
 
     </main>

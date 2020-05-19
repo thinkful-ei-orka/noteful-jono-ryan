@@ -1,13 +1,14 @@
 import React from 'react';
-import Note from './Note';
+import { NavLink } from 'react-router-dom';
+// import Note from '../Main/Note';
 
 export default function FolderList(props) {
     //We need only the notes that match the selected folder. Use filter.
     return(
         <section className="folder-list">
         {props.folders.map(folder=> 
-            <div id={folder.id}>
-                <h3>{folder.name}</h3>
+            <div className='folder' key={folder.id}>
+                <NavLink className='navlink' to={'/folder/' + folder.id} >{folder.name}</NavLink>
             </div>
             )}  
         </section>
