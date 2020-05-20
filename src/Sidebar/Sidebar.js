@@ -1,12 +1,20 @@
 import React from 'react';
 import FolderList from './FolderList';
+import UserContext from '../UserContext'
 
-export default function Sidebar(props) {
+class Sidebar extends React.Component {
+    static contextType = UserContext;
+    
+    render() {
+        const {folders} = this.context
     return(
         <section className="sidebar">
-            <FolderList folders={props.folders}/>
+            <FolderList folders={folders}/>
             <button className='Add-folder'>Add Folder</button>
     
         </section>
     )
+    }
 }
+
+export default Sidebar;
