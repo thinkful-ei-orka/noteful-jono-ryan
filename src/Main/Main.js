@@ -1,14 +1,31 @@
 import React from 'react';
 // import Sidebar from '../Sidebar/Sidebar';
 import Note from './Note';
+import AddNote from './AddNote'
+import UserContext from '../UserContext'
 
 
+class MainRoute extends React.Component {
+    static contextType = UserContext;
 
-export default function MainRoute(props) {
+    render() {
+        const {addNote} = this.context
+    if (addNote) {
+        return (
+            <section className="main">
+                <AddNote />   
+            </section>
+        )
+    } 
+    else {
     return(
         <section className="main">
-            <Note showDescription={props.showDescription} noteId={props.match.params.noteId} folderId ={props.match.params.folderId} notes={props.notes}/>    
+            <Note showDescription={this.props.showDescription} noteId={this.props.match.params.noteId} folderId ={this.props.match.params.folderId} notes={this.props.notes}/>
         </section> 
         
     )
+    }
+    }
 }
+
+export default MainRoute;

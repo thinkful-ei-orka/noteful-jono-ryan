@@ -1,21 +1,21 @@
 import React from 'react';
-import UserContext from './UserContext';
+import UserContext from '../UserContext';
 
 class AddNote extends React.Component {
     static contextType = UserContext;
     render() {
-        const {folders} = this.context
+        const {folders, addNewNote} = this.context
     return (
-        <form>
-            <label htmlFor='note-name'>Note Name</label>
-            <input type='text' id='note-name' required></input>
+        <form className='add-note-form' onSubmit={addNewNote}>
+            
+            <label htmlFor='note-name'>Name:</label>
+            <input type='text' id='note-name'  required className='note-input'></input>
 
-            <label htmlFor='note-content'>Note Content</label>
-            <input type='text' id='note-content' required></input>
-            {/* need to validate folderselection  */}
-            <label htmlFor='note-folder'>Note Folder</label>
-            {/* <input type='text' id='note-folder'></input> */}
-            <select id='note-folder'>
+            <label htmlFor='note-content'>Content:</label>
+            <input type='text' id='note-content' required className='note-input'></input>
+            
+            <label htmlFor='note-folder'>Folder:</label>
+            <select id='note-folder' className='note-input'>
                 {folders.map(folder => {
                     return <option value={folder.id}>{folder.name}</option>
                 })}

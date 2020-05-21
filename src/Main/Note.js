@@ -2,13 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import UserContext from '../UserContext'
-import AddNote from '../AddNote'
+// import AddNote from '../AddNote'
 
 class Note  extends React.Component {
     static contextType = UserContext;
     
     render() {
-        const {notes, deleteNote} = this.context
+        const {notes, deleteNote, renderAddNote} = this.context
         
         let filteredNotesByNote = notes.filter(note => note.id === this.props.noteId)
         
@@ -39,9 +39,7 @@ class Note  extends React.Component {
             </div>
             
             )}
-            <button className="Add-note">Add Note</button>
-            <AddNote/>
-
+            <button className="Add-note" onClick={renderAddNote}>Add Note</button>
         </section>
     )}
 }

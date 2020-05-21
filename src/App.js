@@ -13,6 +13,7 @@ class App extends React.Component {
   state= {
     folders: null,
     notes: null,
+    addNote: false
   }
   
   componentDidMount() {
@@ -31,9 +32,45 @@ class App extends React.Component {
         notes: resJson
       })
     })
-
   }
   
+  addNoteState = () => {
+    this.setState({
+      addNote: true
+    })
+  }
+
+  noteState = () => {
+    this.setState({
+      addNote: false
+    })
+  }
+
+  // handleNoteSubmit(event) {
+  //   const { name, value } = event.target;
+
+  // }
+
+
+  addNewNote = (name, content, folder) => {
+    const newNote = {
+      name: name,
+      content: content,
+      folder: folder
+    }
+    let newNoteString = JSON.stringify(newNote)
+    const newNotes = this.state.notes.push(newNote)
+    this.setState({
+      notes: newNotes
+    })
+    return fetch(`${baseUrl}/notes`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'},
+      body: newNoteString
+    })
+  }
+
   deleteNote = noteId => {
     const newNotes = this.state.notes.filter(note => 
       note.id !== noteId
@@ -58,7 +95,11 @@ class App extends React.Component {
       <UserContext.Provider value={{
         folders: this.state.folders,
         notes: this.state.notes,
-        deleteNote: this.deleteNote
+        deleteNote: this.deleteNote,
+        addNote: this.state.addNote,
+        renderAddNote: this.addNoteState,
+        renderNote: this.noteState,
+        addNoteSubmit: this.handleNoteSubmit
       }} >
   
     <main className='App'>

@@ -1,10 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import UserContext from './UserContext'
 
-export default function Header(props) {
+class Header extends React.Component {
+    static contextType = UserContext;
+
+    render(){
+        const {renderNote} = this.context;
     return(
         <header>
-            <NavLink className='navlink' to='/'>Noteful</NavLink>
+            <NavLink onClick={renderNote} className='navlink' to='/'>Noteful</NavLink>
         </header>
-    )
+        )
+    }
 }
+
+export default Header;

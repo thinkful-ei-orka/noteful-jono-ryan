@@ -8,3 +8,5 @@ function AddFolder() {
         </form>
     )
 }
+
+export default AddFolder;
