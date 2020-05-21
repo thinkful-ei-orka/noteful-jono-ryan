@@ -13,7 +13,8 @@ class App extends React.Component {
   state= {
     folders: null,
     notes: null,
-    addNote: false
+    addNote: false,
+    addFolder: false
   }
   
   componentDidMount() {
@@ -46,11 +47,17 @@ class App extends React.Component {
     })
   }
 
-  // handleNoteSubmit(event) {
-  //   const { name, value } = event.target;
+  addFolderState = () => {
+    this.setState({
+      addFolder: true
+    })
+  }
 
-  // }
-
+  folderState = () => {
+    this.setState({
+      addFolder: false
+    })
+  }
 
   addNewNote = (name, content, folder) => {
     const newNote = {
@@ -58,16 +65,39 @@ class App extends React.Component {
       content: content,
       folder: folder
     }
+    console.log(newNote)
+    const newNotes = [...this.state.notes, newNote]
     let newNoteString = JSON.stringify(newNote)
-    const newNotes = this.state.notes.push(newNote)
-    this.setState({
-      notes: newNotes
-    })
     return fetch(`${baseUrl}/notes`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'},
       body: newNoteString
+    }).then(() => {
+    this.setState({
+      notes: newNotes,
+      addNote: false
+    })
+    })
+  }
+
+  addNewFolder = (name) => {
+    const newFolder = {
+      name: name
+    }
+    console.log(newFolder)
+    const newFolders = [...this.state.folders, newFolder]
+    let newFolderString = JSON.stringify(newFolder)
+    return fetch(`${baseUrl}/notes`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'},
+      body: newFolderString
+    }).then(() => {
+    this.setState({
+      folders: newFolders,
+      addFolder: false
+    })
     })
   }
 
@@ -99,7 +129,10 @@ class App extends React.Component {
         addNote: this.state.addNote,
         renderAddNote: this.addNoteState,
         renderNote: this.noteState,
-        addNoteSubmit: this.handleNoteSubmit
+        addNewNote: this.addNewNote,
+        addFolder: this.state.addFolder,
+        renderAddFolder: this.addFolderState,
+        renderFolder: this.folderState
       }} >
   
     <main className='App'>

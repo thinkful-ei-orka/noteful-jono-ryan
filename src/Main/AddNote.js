@@ -3,21 +3,32 @@ import UserContext from '../UserContext';
 
 class AddNote extends React.Component {
     static contextType = UserContext;
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log('form submitted')
+        const noteName = event.target.noteName.value
+        const content = event.target.content.value
+        const folder = event.target.folder.value
+        // console.log(event.target.noteName.value)
+        // console.log(event.target.content.value)
+        // console.log(event.target.folder.value)
+        this.context.addNewNote(noteName, content, folder)
+    }
     render() {
-        const {folders, addNewNote} = this.context
+        const {folders} = this.context
     return (
-        <form className='add-note-form' onSubmit={addNewNote}>
+        <form className='add-note-form' onSubmit={this.handleSubmit}>
             
             <label htmlFor='note-name'>Name:</label>
-            <input type='text' id='note-name'  required className='note-input'></input>
+            <input  type='text' id='note-name' className='note-input' name='noteName' required></input>
 
             <label htmlFor='note-content'>Content:</label>
-            <input type='text' id='note-content' required className='note-input'></input>
+            <input  type='text' id='note-content' className='note-input' name='content' required></input>
             
             <label htmlFor='note-folder'>Folder:</label>
-            <select id='note-folder' className='note-input'>
+            <select  id='note-folder' className='note-input' name='folder'>
                 {folders.map(folder => {
-                    return <option value={folder.id}>{folder.name}</option>
+                    return <option key={folder.id} value={folder.id}>{folder.name}</option>
                 })}
             </select>
 
