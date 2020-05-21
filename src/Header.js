@@ -6,7 +6,7 @@ class Header extends React.Component {
     static contextType = UserContext;
 
     render(){
-        const {renderNote, renderFolder} = this.context;
+        const {renderNote} = this.context;
     return(
         <header>
             <NavLink onClick={renderNote} className='navlink' to='/'>Noteful</NavLink>

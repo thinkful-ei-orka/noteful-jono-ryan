@@ -88,7 +88,7 @@ class App extends React.Component {
     console.log(newFolder)
     const newFolders = [...this.state.folders, newFolder]
     let newFolderString = JSON.stringify(newFolder)
-    return fetch(`${baseUrl}/notes`, {
+    return fetch(`${baseUrl}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'},
@@ -132,7 +132,8 @@ class App extends React.Component {
         addNewNote: this.addNewNote,
         addFolder: this.state.addFolder,
         renderAddFolder: this.addFolderState,
-        renderFolder: this.folderState
+        renderFolder: this.folderState,
+        addNewFolder: this.addNewFolder
       }} >
   
     <main className='App'>
