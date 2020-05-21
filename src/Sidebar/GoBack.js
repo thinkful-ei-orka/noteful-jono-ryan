@@ -2,7 +2,7 @@ import React from 'react';
 
 
 export default function GoBack(props) {
-    // console.log(props.folder[0].name)
+    console.log(props)
     return (
         <div>
             <button>Go back!</button>

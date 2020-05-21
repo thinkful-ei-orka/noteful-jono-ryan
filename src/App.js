@@ -11,8 +11,8 @@ const baseUrl = 'http://localhost:9090';
 
 class App extends React.Component {
   state= {
-    folders: [],
-    notes: []
+    folders: null,
+    notes: null,
   }
   
   componentDidMount() {
@@ -31,6 +31,7 @@ class App extends React.Component {
         notes: resJson
       })
     })
+
   }
   
   deleteNote = noteId => {
@@ -50,7 +51,9 @@ class App extends React.Component {
   }
 
   render(){
-    
+    if(this.state.folders === null || this.state.notes === null) {
+      return <p>Still Loading</p>
+    }
     return (
       <UserContext.Provider value={{
         folders: this.state.folders,
@@ -66,6 +69,7 @@ class App extends React.Component {
         <Route path ='/folder/:folderId' component={Sidebar}/>
 
         <Route path ='/note/:noteId' render={(routerProps) => {
+          console.log(this.state)
         let note = this.state.notes.find(note => note.id ===  routerProps.match.params.noteId)
         let folder = this.state.folders.find(folder => folder.id === note.folderId)
         return <GoBack folderName={folder.name}/>

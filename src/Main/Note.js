@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import UserContext from '../UserContext'
+import AddNote from '../AddNote'
 
 class Note  extends React.Component {
     static contextType = UserContext;
@@ -39,6 +40,7 @@ class Note  extends React.Component {
             
             )}
             <button className="Add-note">Add Note</button>
+            <AddNote/>
 
         </section>
     )}
