@@ -7,7 +7,7 @@ import UserContext from '../UserContext'
 
 class MainRoute extends React.Component {
     static contextType = UserContext;
-
+    // This will llikely change in refactor
     render() {
         const {addNote} = this.context
     if (addNote) {

@@ -9,9 +9,6 @@ class AddNote extends React.Component {
         const noteName = event.target.noteName.value
         const content = event.target.content.value
         const folder = event.target.folder.value
-        // console.log(event.target.noteName.value)
-        // console.log(event.target.content.value)
-        // console.log(event.target.folder.value)
         this.context.addNewNote(noteName, content, folder)
     }
     render() {

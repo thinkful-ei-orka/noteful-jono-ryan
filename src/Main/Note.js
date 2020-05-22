@@ -9,14 +9,11 @@ class Note  extends React.Component {
     
     render() {
         const {notes, deleteNote, renderAddNote} = this.context
-        
         let filteredNotesByNote = notes.filter(note => note.id === this.props.noteId)
-        
         let filteredNotesByFolder = notes.filter(note=> note.folderId === this.props.folderId)
-        
         let notesList = []
-
         let showDescription = false
+        // conditional rendering for filtering notes by folder and showing one selected note
         if (this.props.folderId) {
             notesList = filteredNotesByFolder
         }
@@ -46,27 +43,3 @@ class Note  extends React.Component {
 
 
 export default Note;
-
-
-
-
-
-
-
-// export default function Note(props) {
-//     return(
-//         <section>
-//             {props.notes.map(note => 
-//             <div className='noteItem' key={note.id} >
-//             <NavLink className='navlink note-name' to={'/note/' + note.id}>{note.name}</NavLink>
-//             <p className='date'>{`Date modified on ${moment(note.modified).format('MMM D YYYY')}`}</p>
-//             <button className='delete-note'>Delete Note</button>
-//             {props.showDescription ? (<p>{note.content}</p>): ''}
-//             </div>
-            
-//             )}
-//             <button className="Add-note">Add Note</button>
-
-//         </section>
-//     )
-// }
