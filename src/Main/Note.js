@@ -18,11 +18,10 @@ class Note  extends React.Component {
             notesList = filteredNotesByFolder
         }
         else if (this.props.noteId) {
-            notesList = filteredNotesByNote
+            notesList = filteredNotesByNote 
             showDescription = true
-        }
-        else {
-            notesList = notes
+        } else {
+        notesList = notes
         }
 
     return(
@@ -38,7 +37,8 @@ class Note  extends React.Component {
             )}
             <button className="Add-note" onClick={renderAddNote}>Add Note</button>
         </section>
-    )}
+    )
+}
 }
 
 

@@ -5,7 +5,8 @@ import { Route } from 'react-router-dom'
 import Sidebar from './Sidebar/Sidebar';
 import GoBack from './Sidebar/GoBack'
 import UserContext from './UserContext'
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router';
+import uuid from 'react-uuid';
 
 const baseUrl = 'http://localhost:9090';
 
@@ -65,7 +66,8 @@ class App extends React.Component {
     const newNote = {
       name: name,
       content: content,
-      folder: folder
+      folderId: folder,
+      id: uuid()
     }
     console.log(newNote)
     const newNotes = [...this.state.notes, newNote]
@@ -86,7 +88,8 @@ class App extends React.Component {
   // adds new folder to the state and posts to api with user input data
   addNewFolder = (name) => {
     const newFolder = {
-      name: name
+      name: name,
+      id: uuid()
     }
     console.log(newFolder)
     const newFolders = [...this.state.folders, newFolder]
