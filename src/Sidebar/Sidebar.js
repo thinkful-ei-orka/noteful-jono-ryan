@@ -2,6 +2,8 @@ import React from 'react';
 import FolderList from './FolderList';
 import UserContext from '../UserContext'
 import AddFolder from './AddFolder'
+import NotefulError from '../NotefulError';
+import PropTypes from 'prop-types';
 
 class Sidebar extends React.Component {
     static contextType = UserContext;
@@ -11,7 +13,9 @@ class Sidebar extends React.Component {
         if(addFolder) {
             return (
                 <section className='sidebar'>
-                    <AddFolder />
+                    <NotefulError>
+                        <AddFolder />
+                    </NotefulError>
                 </section>
             )
         }
@@ -23,6 +27,12 @@ class Sidebar extends React.Component {
         </section>
     )
     }
+}
+
+Sidebar.propTypes = {
+    history: PropTypes.object,
+    match: PropTypes.object,
+    location: PropTypes.object
 }
 
 export default Sidebar;

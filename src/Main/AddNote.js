@@ -1,5 +1,6 @@
 import React from 'react';
 import UserContext from '../UserContext';
+import PropTypes from 'prop-types';
 
 class AddNote extends React.Component {
     static contextType = UserContext;
@@ -33,6 +34,12 @@ class AddNote extends React.Component {
         </form>
         )
     }
+}
+
+AddNote.propTypes = {
+    history: PropTypes.object,
+    match: PropTypes.object,
+    location: PropTypes.object
 }
 
 export default AddNote;

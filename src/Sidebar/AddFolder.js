@@ -1,5 +1,6 @@
 import React from 'react';
 import UserContext from '../UserContext';
+import PropTypes from 'prop-types';
 
 class AddFolder extends React.Component {
     static contextType = UserContext;
@@ -17,6 +18,12 @@ class AddFolder extends React.Component {
         </form>
         )
     }
+}
+
+AddFolder.propTypes = {
+    history: PropTypes.object,
+    match: PropTypes.object,
+    location: PropTypes.object
 }
 
 export default AddFolder;

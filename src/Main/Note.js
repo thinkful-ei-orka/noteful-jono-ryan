@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import UserContext from '../UserContext'
-// import AddNote from '../AddNote'
+import PropTypes from 'prop-types';
 
 class Note  extends React.Component {
     static contextType = UserContext;
@@ -39,6 +39,24 @@ class Note  extends React.Component {
         </section>
     )
 }
+}
+
+Note.propTypes = {
+    date: PropTypes.string.isRequired,
+    folderId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    name: (props, propName, componentName) => {
+        const prop = props[propName];
+        if(!prop) {
+            return new Error(`${propName} is required in ${componentName}. Validation Failed`);
+        }
+        if (typeof prop != 'string') {
+            return new Error(`Invalid prop, ${propName} is expected to be a string in ${componentName}. ${typeof prop} found.`);
+        }
+        if (prop.length === 0) {
+        return new Error(`Invalid prop, ${propName} must be entered. Validation Failed.`);
+        }
+    }
 }
 
 

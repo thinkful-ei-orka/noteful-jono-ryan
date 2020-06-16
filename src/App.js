@@ -5,13 +5,13 @@ import { Route } from 'react-router-dom'
 import Sidebar from './Sidebar/Sidebar';
 import GoBack from './Sidebar/GoBack'
 import UserContext from './UserContext'
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 import uuid from 'react-uuid';
 
 const baseUrl = 'http://localhost:9090';
 
 class App extends React.Component {
-  state= {
+  state = {
     folders: null,
     notes: null,
     addNote: false,
@@ -20,22 +20,38 @@ class App extends React.Component {
   // Retrieve folders and notes from api and populate the state
   componentDidMount() {
     fetch(`${baseUrl}/folders`)
-    .then(res => res.json())
-    .then(resJson => {
-      // console.log(resJson)
-      this.setState({
-        folders: resJson
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(e => Promise.reject(e))
+        }
+        return res.json()
       })
-    })
+      .then(resJson => {
+        // console.log(resJson)
+        this.setState({
+          folders: resJson
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
     fetch(`${baseUrl}/notes`)
-    .then(res => res.json())
-    .then(resJson => {
-      this.setState({
-        notes: resJson
+      .then(res => {
+        if(!res.ok) {
+          return res.json().then(e => Promise.reject(e))
+        }
+        return res.json()
       })
-    })
+      .then(resJson => {
+        this.setState({
+          notes: resJson
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
   }
-  
+
   // Set the state for conditional rendering. will be gone in refactor
   addNoteState = () => {
     this.setState({
@@ -75,16 +91,26 @@ class App extends React.Component {
     return fetch(`${baseUrl}/notes`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'},
+        'content-type': 'application/json'
+      },
       body: newNoteString
-    }).then(() => {
-    this.setState({
-      notes: newNotes,
-      addNote: false
     })
-    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      .then(() => {
+        this.setState({
+          notes: newNotes,
+          addNote: false
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
   }
-  
+
   // adds new folder to the state and posts to api with user input data
   addNewFolder = (name) => {
     const newFolder = {
@@ -97,36 +123,46 @@ class App extends React.Component {
     return fetch(`${baseUrl}/folders`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'},
+        'content-type': 'application/json'
+      },
       body: newFolderString
-    }).then(() => {
-    this.setState({
-      folders: newFolders,
-      addFolder: false
     })
-    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      .then(() => {
+        this.setState({
+          folders: newFolders,
+          addFolder: false
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
   }
 
   // removes note from the api and state
   deleteNote = noteId => {
-    const newNotes = this.state.notes.filter(note => 
+    const newNotes = this.state.notes.filter(note =>
       note.id !== noteId
-      )
-      this.setState({
-        notes: newNotes
-      })
-      this.props.history.push('/')
-      fetch(baseUrl + `/notes/${noteId}`, {
-        method: 'DELETE',
-        headers: {
-          'content-type': 'application/json'
-        },
-      })
+    )
+    this.setState({
+      notes: newNotes
+    })
+    this.props.history.push('/')
+    fetch(baseUrl + `/notes/${noteId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+    })
   }
 
-  render(){
+  render() {
     // waits till the state is populated before trying to access it
-    if(this.state.folders === null || this.state.notes === null) {
+    if (this.state.folders === null || this.state.notes === null) {
       return <p>Still Loading</p>
     }
     return (
@@ -144,36 +180,36 @@ class App extends React.Component {
         renderFolder: this.folderState,
         addNewFolder: this.addNewFolder
       }} >
-  
-    <main className='App'>
-      <Header/>
-      <div className="sidebar-router">
-        <Route path ='/' exact component={Sidebar}/>
 
-        <Route path ='/folder/:folderId' component={Sidebar}/>
-        {/* this route could definitely be refactored */}
-        <Route path ='/note/:noteId' render={(routerProps) => {
-          console.log(this.state)
-        let note = this.state.notes.find(note => note.id ===  routerProps.match.params.noteId)
-        let folder = this.state.folders.find(folder => folder.id === note.folderId)
-        return <GoBack folderName={folder.name}/>
-        }}/>
+        <main className='App'>
+          <Header />
+          <div className="sidebar-router">
+            <Route path='/' exact component={Sidebar} />
 
-      </div>
-      
-      
-      <div className="main-router">
-        <Route path='/' exact component={Main}/>
+            <Route path='/folder/:folderId' component={Sidebar} />
+            {/* this route could definitely be refactored */}
+            <Route path='/note/:noteId' render={(routerProps) => {
+              console.log(this.state)
+              let note = this.state.notes.find(note => note.id === routerProps.match.params.noteId)
+              let folder = this.state.folders.find(folder => folder.id === note.folderId)
+              return <GoBack folderName={folder.name} />
+            }} />
 
-        <Route path='/folder/:folderId' component={Main}/>
+          </div>
 
-        <Route path='/note/:noteId' component={Main} />
-        
-        </div>
-    </main>
-    </ UserContext.Provider>
-  );
-}
+
+          <div className="main-router">
+            <Route path='/' exact component={Main} />
+
+            <Route path='/folder/:folderId' component={Main} />
+
+            <Route path='/note/:noteId' component={Main} />
+
+          </div>
+        </main>
+      </ UserContext.Provider>
+    );
+  }
 }
 
 export default withRouter(App);

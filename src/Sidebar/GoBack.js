@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default function GoBack(props) {
+function GoBack(props) {
     console.log(props)
     return (
         <div>
@@ -10,3 +11,9 @@ export default function GoBack(props) {
         </div>
     )
 }
+
+GoBack.propTypes = {
+    folder: PropTypes.string
+}
+
+export default GoBack;
